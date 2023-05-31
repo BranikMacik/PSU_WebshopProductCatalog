@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Ignoring altered connection string
+Webshop.Catalog.Solution/Webshop.Help/appsettings.Development.json

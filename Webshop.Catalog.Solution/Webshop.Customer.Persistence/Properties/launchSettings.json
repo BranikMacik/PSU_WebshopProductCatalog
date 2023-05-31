@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Webshop.Customer.Persistence": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:52130;http://localhost:52138"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Webshop.Customer.Application": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:52124;http://localhost:52139"
+    }
+  }
+}
