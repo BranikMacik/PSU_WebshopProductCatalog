@@ -49,11 +49,11 @@ namespace Webshop.Order.Persistence
 
         }
 
-        public async Task<List<Domain.AggregateRoots.Order>> GetAllAsync()
+        public async Task<IEnumerable<Domain.AggregateRoots.Order>> GetAllAsync()
         {
             using var connection = dataContext.CreateConnection();
             var query = $"select * from {TableName}";
-            return await connection.QueryAsync<Domain.AggregateRoots.Order>(query, new { id });
+            return await connection.QueryAsync<Domain.AggregateRoots.Order>(query);
 
         }
 

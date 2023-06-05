@@ -13,7 +13,7 @@ namespace Webshop.Order.Application.Contracts.Persistence
 
         Task<Domain.AggregateRoots.Order> GetAsync(int id);
 
-        Task<List<Domain.AggregateRoots.Order>> GetAllAsync();
+        Task<IEnumerable<Domain.AggregateRoots.Order>> GetAllAsync();
 
         Task<int> DeleteAsync(int id);
     }
