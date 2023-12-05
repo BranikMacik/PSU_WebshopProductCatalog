@@ -11,17 +11,21 @@ namespace Webshop.Order.Application.Features.Order.Commands.CreateOrder
 {
     public class CreateOrderCommand : ICommand
     {
+
         public CreateOrderCommand(int customerId, DateTime dateOfIssue, DateTime dueDate, int discount, Dictionary<int, int> orderedProductIdsAndAmounts)
         {
             Ensure.That(customerId, nameof(customerId)).IsGt(0);
             CustomerId = customerId;
+
             Ensure.That(dateOfIssue, nameof(dateOfIssue)).IsNot(DateTime.MinValue);
             DateOfIssue = dateOfIssue;
             Ensure.That(dueDate, nameof(dueDate)).IsNot(DateTime.MinValue);
             DueDate = dueDate;
+
             Ensure.That(orderedProductIdsAndAmounts, nameof(orderedProductIdsAndAmounts)).IsNotNull();
             Ensure.That(orderedProductIdsAndAmounts, nameof(orderedProductIdsAndAmounts)).HasItems();
             OrderedProductIdsAndAmounts = orderedProductIdsAndAmounts;
+
             Ensure.That(discount, nameof(discount)).IsInRange(0,15);
             Discount = discount;
         }

@@ -19,6 +19,7 @@
     <ProjectReference Include="..\Webshop.Order.Application\Webshop.Order.Application.csproj" />
     <ProjectReference Include="..\Webshop.Order.Domain\Webshop.Order.Domain.csproj" />
     <ProjectReference Include="..\Webshop.Order.Persistence\Webshop.Order.Persistence.csproj" />
+
   </ItemGroup>
 
 </Project>

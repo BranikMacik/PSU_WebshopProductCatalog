@@ -39,6 +39,7 @@ namespace Webshop.Order.Api.Controllers
             if (result.IsValid)
             {
                 CreateOrderCommand command = new CreateOrderCommand(request.CustomerId, request.DateOfIssue, request.DueDate, request.Discount, request.OrderedProductIdsAndAmounts);
+
                 Result commandResult = await dispatcher.Dispatch(command);
                 if (commandResult.Success)
                 {

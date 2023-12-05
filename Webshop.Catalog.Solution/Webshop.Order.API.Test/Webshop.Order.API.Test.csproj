@@ -23,5 +23,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Webshop.Order.Application\Webshop.Order.Application.csproj" />
   </ItemGroup>
-
 </Project>

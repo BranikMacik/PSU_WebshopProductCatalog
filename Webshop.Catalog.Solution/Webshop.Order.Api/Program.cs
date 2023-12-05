@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 //builder.Services.AddScoped<`IOrderRepository, OrderRepository>();
 
 //add own services
@@ -25,6 +26,7 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IDispatcher>(sp => new Dispatcher(sp.GetService <IMediator>()));
 builder.Services.AddOrderApplicationServices();
+
 
 var app = builder.Build();
 

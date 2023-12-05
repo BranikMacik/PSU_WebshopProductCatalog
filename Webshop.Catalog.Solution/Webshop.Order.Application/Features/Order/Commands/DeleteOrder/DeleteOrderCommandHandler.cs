@@ -11,7 +11,9 @@ using Webshop.Order.Application.Features.Order.Commands.DeleteOrder;
 
 namespace Webshop.Order.Application.Features.Order.Commands.CreateOrder
 {
+
     public class DeleteOrderCommandHandler : ICommandHandler<DeleteOrderCommand>
+
     {
         private ILogger<DeleteOrderCommandHandler> logger;
         private IOrderRepository orderRepository;
@@ -23,6 +25,7 @@ namespace Webshop.Order.Application.Features.Order.Commands.CreateOrder
         }
 
         public async Task<Result> Handle(DeleteOrderCommand command, CancellationToken cancellationToken = default)
+
         {
             try
             {

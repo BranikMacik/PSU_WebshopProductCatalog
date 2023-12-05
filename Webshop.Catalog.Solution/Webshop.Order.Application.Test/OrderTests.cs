@@ -15,6 +15,7 @@ namespace Webshop.Order.Application.Test
 {
     public class OrderTests
     {
+
         [Fact]
         public void TestConnectionToDatabase()
         {
@@ -39,17 +40,25 @@ namespace Webshop.Order.Application.Test
         /// Test is expected to fail as Customer property is missing
         /// </summary>
         [Fact]
+
+        /// <summary>
+        /// Test is expected to fail as Customer property is missing
+        /// </summary>
+            [Fact]
+
         public void CreateOrderCommand_InValidCustomer_ExpectFailure()
         {
             DateTime dateOfIssue = DateTime.Today;
             DateTime dueDate = DateTime.Today.AddDays(21);
             int discount = 0;
+
             Dictionary<int, int> orderedProducts = new Dictionary<int, int>()
             {
                 {1, 1}
             };
             
             Action a = () => new CreateOrderCommand(0, dateOfIssue, dueDate, discount, orderedProducts);
+
             Assert.Throws<ArgumentNullException>(a);
         }
 
@@ -59,6 +68,7 @@ namespace Webshop.Order.Application.Test
         [Fact]
         public void CreateOrderCommand_InValidDateOfIssue_ExpectFailure()
         {
+
             int customerId = 15;
             DateTime dateOfIssue = DateTime.MinValue;
             DateTime dueDate = DateTime.Today.AddDays(21);
@@ -69,6 +79,7 @@ namespace Webshop.Order.Application.Test
             };
 
             Action a = () => new CreateOrderCommand(customerId, dateOfIssue, dueDate, discount, orderedProducts);
+
             Assert.Throws<ArgumentException>(a);
         }
 
@@ -78,6 +89,7 @@ namespace Webshop.Order.Application.Test
         [Fact]
         public void CreateOrderCommand_InValidDueDate_ExpectFailure()
         {
+
             int customerId = 15;
             DateTime dateOfIssue = DateTime.Today;
             DateTime dueDate = DateTime.MinValue;
@@ -88,6 +100,7 @@ namespace Webshop.Order.Application.Test
             };
 
             Action a = () => new CreateOrderCommand(customerId, dateOfIssue, dueDate, discount, orderedProducts);
+
             Assert.Throws<ArgumentException>(a);
         }
 
@@ -97,6 +110,7 @@ namespace Webshop.Order.Application.Test
         [Fact]
         public void CreateOrderCommand_InvalidDiscountLow_ExpectFailure()
         {
+
             int customerId = 15;
             DateTime dateOfIssue = DateTime.Today;
             DateTime dueDate = DateTime.Today.AddDays(21);
@@ -107,6 +121,7 @@ namespace Webshop.Order.Application.Test
             };
 
             Action a = () => new CreateOrderCommand(customerId, dateOfIssue, dueDate, discount, orderedProducts);
+
             Assert.Throws<ArgumentOutOfRangeException>(a);
         }
 
@@ -116,6 +131,7 @@ namespace Webshop.Order.Application.Test
         [Fact]
         public void CreateOrderCommand_InvalidDiscountHigh_ExpectFailure()
         {
+
             int customerId = 15;
             DateTime dateOfIssue = DateTime.Today;
             DateTime dueDate = DateTime.Today.AddDays(21);
@@ -126,6 +142,7 @@ namespace Webshop.Order.Application.Test
             };
 
             Action a = () => new CreateOrderCommand(customerId, dateOfIssue, dueDate, discount, orderedProducts);
+
             Assert.Throws<ArgumentOutOfRangeException>(a);
         }
 
@@ -135,6 +152,7 @@ namespace Webshop.Order.Application.Test
         [Fact]
         public void CreateOrderCommand_InvalidDictionaryEmpty_ExpectFailure()
         {
+
             int customerId = 15;
             DateTime dateOfIssue = DateTime.Today;
             DateTime dueDate = DateTime.Today.AddDays(21);
@@ -142,6 +160,7 @@ namespace Webshop.Order.Application.Test
             Dictionary<int, int> noOrderedProducts = new Dictionary<int, int>();
 
             Action a = () => new CreateOrderCommand(customerId, dateOfIssue, dueDate, discount, noOrderedProducts);
+
             Assert.Throws<ArgumentException>(a);
         }
 
@@ -151,12 +170,15 @@ namespace Webshop.Order.Application.Test
         [Fact]
         public void CreateOrderCommand_InvalidDictionaryNull_ExpectFailure()
         {
+
             int customerId = 15;
+
             DateTime dateOfIssue = DateTime.Today;
             DateTime dueDate = DateTime.Today.AddDays(21);
             int discount = 10;
 
             Action a = () => new CreateOrderCommand(customerId, dateOfIssue, dueDate, discount, null);
+
             Assert.Throws<ArgumentNullException>(a);
         }
 
@@ -177,6 +199,7 @@ namespace Webshop.Order.Application.Test
         [Fact]
         public void CreateOrderCommand_Valid_ExpectSuccess() 
         {
+
             int customerId = 15;
             DateTime dateOfIssue = DateTime.Today;
             DateTime dueDate = DateTime.Today.AddDays(21);
@@ -187,6 +210,7 @@ namespace Webshop.Order.Application.Test
             };
 
             Action a = () => new CreateOrderCommand(customerId, dateOfIssue, dueDate, discount, orderedProducts);
+
         }
 
         [Fact]
@@ -202,6 +226,7 @@ namespace Webshop.Order.Application.Test
             };
             Domain.AggregateRoots.Order order = new Domain.AggregateRoots.Order(15, DateTime.Today, DateTime.Today.AddDays(21), 0, orderedProducts);
             CreateOrderCommand command = new CreateOrderCommand(order.CustomerId, order.DateOfIssue, order.DueDate, order.Discount, order.OrderedProductIdsAndAmounts);
+
 
             // Setup the mock repository
             orderRepositoryMock.Setup(m => m.CreateAsync(It.IsAny<Domain.AggregateRoots.Order>())).ReturnsAsync(Result.Ok());

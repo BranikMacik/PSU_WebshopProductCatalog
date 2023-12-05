@@ -25,7 +25,9 @@ namespace Webshop.Order.Application.Features.Order.Commands.CreateOrder
         {
             try
             {
+
                 Domain.AggregateRoots.Order newOrder = new Domain.AggregateRoots.Order(command.CustomerId, command.DateOfIssue, command.DueDate, command.Discount, command.OrderedProductIdsAndAmounts);
+
                 await this.orderRepository.CreateAsync(newOrder);
                 return Result.Ok();
             }

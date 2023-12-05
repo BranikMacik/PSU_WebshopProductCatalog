@@ -16,7 +16,9 @@ namespace Webshop.Order.Domain.AggregateRoots
 {
     public class Order : AggregateRoot
     {
+
         public Order(int customerId, DateTime dateOfIssue, DateTime dueDate, int discount, Dictionary<int, int> orderedProductIdsAndAmounts)
+
         {
             Ensure.That(dateOfIssue != DateTime.MinValue);
             DateOfIssue = dateOfIssue;
@@ -33,6 +35,7 @@ namespace Webshop.Order.Domain.AggregateRoots
             Ensure.That(orderedProductIdsAndAmounts).IsNotNull();
             Ensure.That(orderedProductIdsAndAmounts.Count > 0);
             OrderedProductIdsAndAmounts = orderedProductIdsAndAmounts;
+
         }
 
         public Order() { } //for ORM

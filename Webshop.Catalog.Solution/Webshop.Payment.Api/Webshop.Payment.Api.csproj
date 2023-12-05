@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Webshop.Order.Api\Webshop.Order.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Webshop.Order.Api\Webshop.Order.Api.csproj" />
+  </ItemGroup>
+
 </Project>
