@@ -350,4 +350,4 @@ MigrationBackup/
 .ionide/
 
 # Exclude appsettings.json files to prevent the changes of connection strings
-appsettings.json
+# appsettings.json
