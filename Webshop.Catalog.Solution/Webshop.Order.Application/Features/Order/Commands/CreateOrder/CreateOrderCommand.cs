@@ -11,25 +11,25 @@ namespace Webshop.Order.Application.Features.Order.Commands.CreateOrder
 {
     public class CreateOrderCommand : ICommand
     {
-        public CreateOrderCommand(Customer customer, DateTime dateOfIssue, DateTime dueDate, int discount, Dictionary<Catalog.Domain.AggregateRoots.Product, int> orderProducts)
+        public CreateOrderCommand(int customerId, DateTime dateOfIssue, DateTime dueDate, int discount, Dictionary<int, int> orderedProductIdsAndAmounts)
         {
-            Ensure.That(customer, nameof(customer)).IsNotNull();
-            Customer = customer;
+            Ensure.That(customerId, nameof(customerId)).IsGt(0);
+            CustomerId = customerId;
             Ensure.That(dateOfIssue, nameof(dateOfIssue)).IsNot(DateTime.MinValue);
             DateOfIssue = dateOfIssue;
             Ensure.That(dueDate, nameof(dueDate)).IsNot(DateTime.MinValue);
             DueDate = dueDate;
-            Ensure.That(orderProducts, nameof(orderProducts)).IsNotNull();
-            Ensure.That(orderProducts, nameof(orderProducts)).HasItems();
-            OrderProducts = orderProducts;
+            Ensure.That(orderedProductIdsAndAmounts, nameof(orderedProductIdsAndAmounts)).IsNotNull();
+            Ensure.That(orderedProductIdsAndAmounts, nameof(orderedProductIdsAndAmounts)).HasItems();
+            OrderedProductIdsAndAmounts = orderedProductIdsAndAmounts;
             Ensure.That(discount, nameof(discount)).IsInRange(0,15);
             Discount = discount;
         }
 
-        public Customer Customer { get; set; }
+        public int CustomerId { get; set; }
         public DateTime DateOfIssue { get; set; }
         public DateTime DueDate { get; set; }
         public int Discount { get; set; }
-        public Dictionary<Catalog.Domain.AggregateRoots.Product, int> OrderProducts { get; set; }
+        public Dictionary<int, int> OrderedProductIdsAndAmounts { get; set; }
     }
 }
