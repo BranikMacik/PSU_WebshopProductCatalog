@@ -22,16 +22,16 @@ namespace Webshop.Order.Persistence
         {
             using var connection = dataContext.CreateConnection();
             var command = $"insert into {TableName} (CustomerId, DateOfIssue, DueDate, Discount) values (@customerId, @dateOfIssue, @dueDate, @discount)";
-            var createdOrderId = connection.QuerySingle<int>(command, new { name = entity.Customer, dateOfIssue = DateTime.UtcNow, dueDate = DateTime.UtcNow.AddDays(7), discount = entity.Discount});
+            var createdOrderId = connection.QuerySingle<int>(command, new { name = entity.CustomerId, dateOfIssue = DateTime.UtcNow, dueDate = DateTime.UtcNow.AddDays(7), discount = entity.Discount});
             if (createdOrderId == 0)
             {
                 return Result.Fail(new Error("DatabaseAccess", "Could not create an order row."));
 
             }
-            foreach (var product in entity.OrderedProducts)
+            foreach (var product in entity.OrderedProductIdsAndAmounts)
             {
                 var manyToManyCommand = $"insert into {TableNames.Order.ORDERPRODUCTTABLE} (OrderId, ProductId, Quantity) values (@orderId, @productId, @quantity)";
-                var rows = await connection.ExecuteAsync(manyToManyCommand, new { orderId = createdOrderId, product = product.Key.Id, quantity = product.Value });
+                var rows = await connection.ExecuteAsync(manyToManyCommand, new { orderId = createdOrderId, product = product.Key, quantity = product.Value });
                 if (rows == 0)
                 {
                     return Result.Fail(new Error("DatabaseAccess", "Could not create a many-to-many entry."));

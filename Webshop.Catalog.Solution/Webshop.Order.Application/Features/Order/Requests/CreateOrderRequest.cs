@@ -11,11 +11,13 @@ namespace Webshop.Order.Application.Features.Order.Requests
 {
     public class CreateOrderRequest
     {
-        public Customer Customer { get; set; }
+
+        public int CustomerId { get; set; }
         public DateTime DateOfIssue { get; set; }
         public DateTime DueDate { get; set; }
         public int Discount { get; set; }
-        public Dictionary<Catalog.Domain.AggregateRoots.Product, int> OrderedProducts { get; set; }
+        public Dictionary<int, int> OrderedProductIdsAndAmounts { get; set; }
+
 
         public class Validator : AbstractValidator<CreateOrderRequest>
         {
@@ -24,8 +26,10 @@ namespace Webshop.Order.Application.Features.Order.Requests
                 /// <summary>
                 /// Checks if the Customer object isn't null
                 /// </summary>
-                RuleFor(r => r.Customer)
-                    .NotNull()
+
+                RuleFor(r => r.CustomerId)
+                    .GreaterThan(0)
+
                     .WithMessage(Errors.General.ValueIsRequired(nameof(Customer)).Message);
 
                 /// <summary>
@@ -56,9 +60,11 @@ namespace Webshop.Order.Application.Features.Order.Requests
                 /// <summary>
                 /// Checks if the Ordered Items Dictionary contains at least one element (Product)
                 /// </summary>
-                RuleFor(r => r.OrderedProducts)
+
+                RuleFor(r => r.OrderedProductIdsAndAmounts)
                     .Must(dictionary => dictionary != null && dictionary.Count > 0)
-                    .WithMessage(Errors.General.ValueIsRequired(nameof(OrderedProducts)).Message);
+                    .WithMessage(Errors.General.ValueIsRequired(nameof(OrderedProductIdsAndAmounts)).Message);
+
             }
         }
     }

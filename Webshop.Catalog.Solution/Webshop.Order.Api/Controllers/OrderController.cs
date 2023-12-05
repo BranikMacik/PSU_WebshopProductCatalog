@@ -38,7 +38,8 @@ namespace Webshop.Order.Api.Controllers
             var result = await validator.ValidateAsync(request);
             if (result.IsValid)
             {
-                CreateOrderCommand command = new CreateOrderCommand(request.Customer, request.DateOfIssue, request.DueDate, request.Discount, request.OrderedProducts);
+                CreateOrderCommand command = new CreateOrderCommand(request.CustomerId, request.DateOfIssue, request.DueDate, request.Discount, request.OrderedProductIdsAndAmounts);
+
                 Result commandResult = await dispatcher.Dispatch(command);
                 if (commandResult.Success)
                 {
@@ -119,9 +120,17 @@ namespace Webshop.Order.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteById(int id)
         {
-            GetOrderCommand command = new GetOrderCommand(id);
+            DeleteOrderCommand command = new DeleteOrderCommand(id);
             var commandResult = await this.dispatcher.Dispatch(command);
-            return FromResult(commandResult);
+            if (commandResult.Success)
+            {
+                return FromResult(commandResult);
+            }
+            else 
+            {
+                this.logger.LogError(string.Join(",", commandResult.Error.Message));
+                return Error(commandResult.Error);
+            }
         }
     }
 }
