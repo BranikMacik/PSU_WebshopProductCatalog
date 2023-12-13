@@ -16,7 +16,7 @@ namespace QueueServices
     {
         public static IServiceCollection AddRabbitMQServices(this IServiceCollection services)
         {
-            services.AddScoped<IConnection>(sp =>
+            services.AddSingleton<IConnection>(sp =>
             {
                 var factory = new ConnectionFactory
                 {
@@ -26,9 +26,9 @@ namespace QueueServices
                 return factory.CreateConnection();
             });
 
-            services.AddScoped<IConnectionProvider, ConnectionProvider>();
-            services.AddScoped<IModelProvider, ModelProvider>();
-            services.AddScoped<IConsumer<OrderDataTransferObject>, OrderConsumer<OrderDataTransferObject>>();
+            services.AddSingleton<IConnectionProvider, ConnectionProvider>();
+            services.AddSingleton<IModelProvider, ModelProvider>();
+            services.AddSingleton<IConsumer<OrderDataTransferObject>, OrderConsumer<OrderDataTransferObject>>();
 
             return services;
         }
