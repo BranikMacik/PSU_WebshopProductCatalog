@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using QueueServices.Contracts;
 using QueueServices.Features.Dtos;
+using QueueServices.Features.MessagingServices;
 using Webshop.Application.Contracts;
 using Webshop.Domain.AggregateRoots;
 using Webshop.Domain.Common;
@@ -13,7 +14,7 @@ using Webshop.Order.Application.Features.Order.Requests;
 namespace Webshop.Order.Api.Tests
 {
     public class OrderApiTests
-    {/*
+    {
         [Fact]
         public async Task CreateOrder_withProperInput_shouldWorkProperly()
         {
@@ -25,27 +26,27 @@ namespace Webshop.Order.Api.Tests
 
             var mockMapper = new Mock<IMapper>();
             var mockLogger = new Mock<ILogger<OrderController>>();
-            var mockOrderPublisher = new Mock<IPublisher<OrderDataTransferObject>>();
+            var mockOrderPublisher = new Mock<OrderPublisher<OrderDataTransferObject>>();
 
             var orderController = new OrderController(mockDispatcher.Object, mockMapper.Object, mockLogger.Object, mockOrderPublisher.Object);
 
-            var orderedProducts = new Dictionary<Catalog.Domain.AggregateRoots.Product, int>()
+            var orderedProducts = new Dictionary<int, int>()
             {
-                {new Catalog.Domain.AggregateRoots.Product("All quiet on the Western Front", "LB-EMR-01", 1500, "EUR"), 1}
+                {5, 1}
             };
 
             // Act
             var actionResult = await orderController.CreateOrder(new CreateOrderRequest
             {
-                Customer = new Customer("Samo"),
+                CustomerId = 5,
                 DateOfIssue = DateTime.Today,
                 DueDate = DateTime.Today.AddDays(21),
                 Discount = 0,
-                OrderedProducts = orderedProducts
+                OrderedProductIdsAndAmounts = orderedProducts
             });
 
             // Assert
             Assert.IsType<OkObjectResult>(actionResult);
-        }*/
+        }
     }
 }
