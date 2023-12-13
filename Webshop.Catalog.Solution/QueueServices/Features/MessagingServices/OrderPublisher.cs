@@ -41,5 +41,9 @@ namespace QueueServices.Features.MessagingServices
                 Console.WriteLine($"Error publishing message: {ex.Message}");
             }
         }
+
+        public OrderPublisher() 
+        { 
+        }
     }
 }
