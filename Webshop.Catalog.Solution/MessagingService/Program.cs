@@ -1,24 +1,30 @@
-﻿using RabbitMQ.Client;
+﻿using MessagingService;
+using RabbitMQ.Client;
 using System;
 using System.Text;
 
 class Program
 {
+    //Publisher service
     static void Main()
     {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-
-        using (var connection = factory.CreateConnection())
-        using (var channel = connection.CreateModel())
+        OrderPublisher publisher = new OrderPublisher();
+        
         {
-            channel.QueueDeclare(queue: "your_queue_name", durable: false, exclusive: false, autoDelete: false, arguments: null);
-
+            /*
             string message = "Hello, RabbitMQ!";
             var body = Encoding.UTF8.GetBytes(message);
 
-            channel.BasicPublish(exchange: "", routingKey: "your_queue_name", basicProperties: null, body: body);
+            var properties = channel.CreateBasicProperties();
+            properties.Persistent = true;
+
+            channel.BasicPublish(exchange: "", routingKey: "order_queue", basicProperties: properties, body: body);
 
             Console.WriteLine($" [x] Sent '{message}'");
+            Console.WriteLine(" Press [enter] to exit.");
+            Console.ReadLine();*/
         }
     }
+
+
 }
