@@ -12,6 +12,7 @@ using RabbitMQ.Client;
 using System.Text;
 using Newtonsoft.Json;
 using QueueServices.Features.MessagingServices;
+using QueueServices.Features.Dtos;
 
 namespace Webshop.Order.Api.Controllers
 {
@@ -22,9 +23,9 @@ namespace Webshop.Order.Api.Controllers
         private IDispatcher dispatcher;
         private ILogger<OrderController> logger;
         private IMapper mapper;
-        private readonly OrderPublisher<OrderDto> _orderPublisher;
+        private readonly OrderPublisher<OrderDataTransferObject> _orderPublisher;
 
-        public OrderController(IDispatcher dispatcher, IMapper mapper, ILogger<OrderController> logger, OrderPublisher<OrderDto> orderPublisher)
+        public OrderController(IDispatcher dispatcher, IMapper mapper, ILogger<OrderController> logger, OrderPublisher<OrderDataTransferObject> orderPublisher)
         {
             this.dispatcher = dispatcher;
             this.mapper = mapper;
