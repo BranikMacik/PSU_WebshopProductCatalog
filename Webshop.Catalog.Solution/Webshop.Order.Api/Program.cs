@@ -42,6 +42,7 @@ builder.Services.AddOrderApplicationServices();
 
 builder.Services.AddRabbitMQServices();
 
+
 var app = builder.Build();
 
 var orderConsumer = app.Services.GetRequiredService<IConsumer<OrderDataTransferObject>>();
