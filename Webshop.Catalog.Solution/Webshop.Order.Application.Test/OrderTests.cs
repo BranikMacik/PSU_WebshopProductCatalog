@@ -36,16 +36,11 @@ namespace Webshop.Order.Application.Test
                 }
             }
         }
+
         /// <summary>
         /// Test is expected to fail as Customer property is missing
         /// </summary>
         [Fact]
-
-        /// <summary>
-        /// Test is expected to fail as Customer property is missing
-        /// </summary>
-            [Fact]
-
         public void CreateOrderCommand_InValidCustomer_ExpectFailure()
         {
             DateTime dateOfIssue = DateTime.Today;
