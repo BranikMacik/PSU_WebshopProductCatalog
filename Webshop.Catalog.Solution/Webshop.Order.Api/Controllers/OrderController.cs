@@ -50,6 +50,8 @@ namespace Webshop.Order.Api.Controllers
                 Result commandResult = await dispatcher.Dispatch(command);
                 if (commandResult.Success)
                 {
+                    _orderPublisher.UpdateItemCountFromWarehouse(request);
+
                     return Ok();
                 }
                 else
@@ -63,27 +65,6 @@ namespace Webshop.Order.Api.Controllers
                 return Error(result.Errors);
             }
         }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateOrderWithRabbitMQ([FromBody] CreateOrderRequest request)
-        {
-            CreateOrderRequest.Validator validator = new CreateOrderRequest.Validator();
-            var result = await validator.ValidateAsync(request);
-            if (result.IsValid)
-            {
-                string operationType = "Create";
-
-                _orderPublisher.PublishCreateOrder(request, operationType);
-
-                return Ok("Order received and sent to RabbitMQ for creation.");
-            }
-            else
-            {
-                this.logger.LogError(string.Join(",", result.Errors.Select(x => x.ErrorMessage)));
-                return Error(result.Errors);
-            }
-        }
-
 
         /// <summary>
         /// Retrieves the Orders with the specified ID.

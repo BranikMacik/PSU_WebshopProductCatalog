@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Webshop.Order.Domain.AggregateRoots;
 
 namespace QueueServices
 {
@@ -28,7 +29,7 @@ namespace QueueServices
 
             services.AddSingleton<IConnectionProvider, ConnectionProvider>();
             services.AddSingleton<IModelProvider, ModelProvider>();
-            services.AddSingleton<IConsumer<OrderDataTransferObject>, OrderConsumer<OrderDataTransferObject>>();
+            services.AddSingleton<IConsumer<Order>, OrderConsumer>();
 
             return services;
         }

@@ -21,20 +21,23 @@ namespace QueueServices.Features.MessagingServices
             
         }
 
-        public void PublishCreateOrder(CreateOrderRequest request, string operationType)
+        //UpdateItemCountFromWarehouse() utilizes RabbitMQ to let the Warehouse consumer know, it should lower the amount of available products 
+        //with ids from the orderInventory
+        public void UpdateItemCountFromWarehouse(CreateOrderRequest request)
         {
             try
             {
-                // Send the order to RabbitMQ with the operation type
+                //operationType allows the Consumer to decide what it should do with the message
+                string operationType = "UpdateItemCount";
+                //Converts request into JSON 
                 var messageBody = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(request));
+                
                 var properties = _channel.CreateBasicProperties();
                 properties.Headers = new Dictionary<string, object>
                 {
                     ["OperationType"] = operationType,
                 };
-
-                _channel.BasicPublish(exchange: "", routingKey: ConnectionConstants.OrderQueueName, basicProperties: properties, body: messageBody);
-            
+                    _channel.BasicPublish(exchange: "", routingKey: ConnectionConstants.OrderQueueName, basicProperties: properties, body: messageBody);
             }
             catch (Exception ex)
             {
