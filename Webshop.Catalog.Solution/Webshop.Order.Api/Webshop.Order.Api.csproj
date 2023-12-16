@@ -9,10 +9,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="FluentValidation" Version="11.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="RabbitMQ.Client" Version="6.7.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="FluentValidation" Version="11.8.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Webshop.Order.Application\Webshop.Order.Application.csproj" />
     <ProjectReference Include="..\Webshop.Order.Domain\Webshop.Order.Domain.csproj" />
     <ProjectReference Include="..\Webshop.Order.Persistence\Webshop.Order.Persistence.csproj" />
+    <ProjectReference Include="..\Webshop.Search.Application\Webshop.Search.Application.csproj" />
 
   </ItemGroup>
 
