@@ -31,7 +31,7 @@ namespace QueueServices.Features.MessagingServices
                 string operationType = "UpdateItemCount";
                 //Converts request into JSON 
                 var messageBody = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(request));
-                
+
                 var properties = _channel.CreateBasicProperties();
                 properties.Headers = new Dictionary<string, object>
                 {

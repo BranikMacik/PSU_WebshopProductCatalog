@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using QueueServices.Contracts;
 using RabbitMQ.Client;
@@ -68,6 +68,7 @@ namespace QueueServices.Features.ProcessingServices
              _channel.BasicConsume(queue: "orders", autoAck: true, consumer: consumer);
 
         }
+
         private async Task UpdateItemCount(Order order)
         {
             try
@@ -86,7 +87,6 @@ namespace QueueServices.Features.ProcessingServices
                 logger.LogError($"Specific error: {ex.Message}");
             }
         }
-
 
         public void Dispose()
         {
