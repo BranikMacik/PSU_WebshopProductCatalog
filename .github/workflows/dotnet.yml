@@ -22,6 +22,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore Webshop.Catalog.Solution/Webshop.Solution.sln
     - name: Build
@@ -32,6 +37,11 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore Webshop.Catalog.Solution/Webshop.Solution.sln
     - name: Build
