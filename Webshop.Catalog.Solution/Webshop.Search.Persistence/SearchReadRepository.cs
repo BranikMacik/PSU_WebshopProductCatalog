@@ -1,27 +1,28 @@
 using Microsoft.Extensions.Logging;
 using Nest;
 using Webshop.Domain.Common;
+using Webshop.Search.Persistence.Contracts;
 
 namespace Webshop.Search.Persistence
 {
-    public class SearchReadRepository
+    public class SearchReadRepository<TEntity> where TEntity : ElasticEntityBase
     {
         private readonly IElasticClient elasticClient;
-        private readonly ILogger<SearchReadRepository> logger;
+        private readonly ILogger<SearchReadRepository<TEntity>> logger;
 
         public SearchReadRepository(
             IElasticClient elasticClient,
-            ILogger<SearchReadRepository> logger)
+            ILogger<SearchReadRepository<TEntity>> logger)
         {
             this.elasticClient = elasticClient;
             this.logger = logger;
         }
 
-        public async Task<ISearchResponse<TEntity>> SearchByIndexAsync<TEntity>(
+        public async Task<ISearchResponse<TEntity>> SearchByIndexAsync(
             string query,
             Indices indices,
             int from,
-            int size) where TEntity : ElasticEntityBase
+            int size)
         {
             var terms = new List<Func<QueryContainerDescriptor<TEntity>, QueryContainer>>
             {

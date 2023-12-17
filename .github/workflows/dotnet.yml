@@ -19,8 +19,15 @@ jobs:
       run: dotnet restore Webshop.Catalog.Solution/Webshop.Solution.sln
     - name: Build
       run: dotnet build Webshop.Catalog.Solution/Webshop.Solution.sln --no-restore
-    - name: Test
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run Tests
       run: dotnet test Webshop.Catalog.Solution/Webshop.Solution.sln --no-build --verbosity normal
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
     - name: Code Coverage Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
