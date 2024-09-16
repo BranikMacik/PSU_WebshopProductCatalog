@@ -9,7 +9,6 @@ namespace QueueServices.Features.Dtos
     public class OrderDataTransferObject
     {
         public int Id { get; set; }
-
         public int CustomerId { get; set; }
         public DateTime DateOfIssue { get; set; }
         public DateTime DueDate { get; set; }

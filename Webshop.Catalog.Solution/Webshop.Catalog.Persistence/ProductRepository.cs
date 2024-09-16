@@ -120,5 +120,19 @@ namespace Webshop.Catalog.Persistence
 
             }
         }
+
+        public async Task UpdateAmountInStockAsync(Product entity)
+        {
+            using (var connection = dataContext.CreateConnection())
+            {
+                string command = $"update {TableName} set AmountInStock = @amount where id = @id";
+                await connection.ExecuteAsync(command, new
+                {
+                    amount = entity.AmountInStock,
+                    id = entity.Id
+                });
+
+            }
+        }
     }
 }

@@ -1,21 +1,27 @@
-﻿using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using QueueServices.Contracts;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Webshop.Application.Contracts;
+using Webshop.Catalog.Application.Features.Product.Commands.UpdateAmountInStockForProduct;
+using Webshop.Domain.Common;
+using Webshop.Order.Domain.AggregateRoots;
 
 namespace QueueServices.Features.ProcessingServices
 {
-    public class OrderConsumer<OrderDataTransferObject> : IConsumer<OrderDataTransferObject>, IDisposable
+    public class OrderConsumer : IConsumer<Order>, IDisposable
     {
         private readonly IModel _channel;
+        private readonly ILogger<OrderConsumer> logger;
+        private readonly IDispatcher dispatcher;
 
-        public OrderConsumer(IModelProvider modelProvider)
+        public OrderConsumer(IDispatcher dispatcher, ILogger<OrderConsumer> logger, IModelProvider modelProvider)
         {
+            this.dispatcher = dispatcher;
+            this.logger = logger;
+
             _channel = modelProvider.GetModel();
 
             _channel.QueueDeclare(queue: ConnectionConstants.OrderQueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
@@ -28,22 +34,22 @@ namespace QueueServices.Features.ProcessingServices
         public void StartConsuming()
         {
             var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 // Deserialize the JSON to your orderDto
-                var message = JsonConvert.DeserializeObject<OrderDataTransferObject>(Encoding.UTF8.GetString(body));
-                Console.WriteLine($" [x] Received '{message}'");
+                var message = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(body));
+                logger.LogInformation($"Received order: {message}");
                 // Retrieve the operation type from message properties
                 var operationType = ea.BasicProperties.Headers?["OperationType"] as string;
 
                 // Determine the operation based on the retrieved type
                 switch (operationType)
                 {
-                    case "Create":
-                        CreateOrder(message);
+                    case "UpdateItemCount":
+                        await UpdateItemCount(message);
                         break;
-                    case "Update":
+                    /*case "Update":
                         UpdateOrder(message);
                         break;
                     case "Read":
@@ -51,9 +57,9 @@ namespace QueueServices.Features.ProcessingServices
                         break;
                     case "Delete":
                         DeleteOrder(message);
-                        break;
+                        break;*/
                     default:
-                        Console.WriteLine($"Unknown operation type: {operationType}");
+                        logger.LogInformation($"Unknown operation type: {operationType}");
                         break;
                 }
                 _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
@@ -62,28 +68,24 @@ namespace QueueServices.Features.ProcessingServices
              _channel.BasicConsume(queue: "orders", autoAck: true, consumer: consumer);
 
         }
-        private void CreateOrder(OrderDataTransferObject orderDto)
-        {
-            // Implementation to create and save the order in the database
-            Console.WriteLine($"Creating order: {orderDto}");
-        }
 
-        private void UpdateOrder(OrderDataTransferObject orderDto)
+        private async Task UpdateItemCount(Order order)
         {
-            // Implementation to update the order in the database
-            Console.WriteLine($"Updating order: {orderDto}");
-        }
-
-        private void ReadOrder(OrderDataTransferObject orderDto)
-        {
-            // Implementation to read the order from the database
-            Console.WriteLine($"Reading order: {orderDto}");
-        }
-
-        private void DeleteOrder(OrderDataTransferObject orderDto)
-        {
-            // Implementation to delete the order from the database
-            Console.WriteLine($"Deleting order: {orderDto}");
+            try
+            {
+                var orderedProducts = order.OrderedProductIdsAndAmounts;
+                foreach (KeyValuePair<int, int> product in orderedProducts)
+                {
+                    int productId = product.Key;
+                    int amount = product.Value;
+                    UpdateAmountInStockForProductCommand command = new UpdateAmountInStockForProductCommand(productId, amount);
+                    await this.dispatcher.Dispatch(command);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Specific error: {ex.Message}");
+            }
         }
 
         public void Dispose()

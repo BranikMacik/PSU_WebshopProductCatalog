@@ -50,6 +50,8 @@ namespace Webshop.Order.Api.Controllers
                 Result commandResult = await dispatcher.Dispatch(command);
                 if (commandResult.Success)
                 {
+                    _orderPublisher.UpdateItemCountFromWarehouse(request);
+
                     return Ok();
                 }
                 else
